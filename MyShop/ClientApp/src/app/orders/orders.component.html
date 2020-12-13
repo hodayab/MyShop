@@ -1,0 +1,57 @@
+<div class="box" >
+  <h2 style="float:right;">מסך הזמנות מסכם</h2>
+  <div class="row" style="width: 100%">
+
+    <div class="col col-lg-8">
+      <table class="table table-hover t1" *ngIf="data">
+        <thead>
+          <tr>
+
+            <th scope="col">מזהה הזמנה</th>
+            <th scope="col">שם לקוח</th>
+            <th scope="col" class="resCol">כתובת משלוח</th>
+            <th scope="col" class="resCol">עיר משלוח</th>
+            <th scope="col" class="resCol">איזור משלוח</th>
+            <th scope="col">עלות משלוח</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of data.orderList">
+
+            <td>{{order.orderID}}</td>
+            <td>
+              <span *ngIf="!order.nameInEdit" (click)="setNameEditable(order)">{{order.companyName}}</span>
+              <input *ngIf="order.nameInEdit" type="text" class="form-control" (keyup.enter)="setNameUneditable(order)"
+                     [(ngModel)]="order.companyName" maxlength="30" />
+            </td>
+            <td class="resCol">{{order.address}}</td>
+            <td class="resCol">{{order.city}}</td>
+            <td class="resCol">{{order.region}}</td>
+            <td>
+
+              <span *ngIf="!order.costInEdit" (click)="setCostEditable(order)">{{order.shippingCost}}</span>
+              <input *ngIf="order.costInEdit" type="number" class="form-control" (keyup.enter)="setCostUneditable(order)"
+                     [(ngModel)]="order.shippingCost" min="0" max="99" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col col-lg-4">
+      <table class="table t2" *ngIf="data">
+        <tr>
+          <td>סה"כ כמות הזמנות</td>
+          <td>{{data.orderList.length}}</td>
+        </tr>
+        <tr>
+          <td>סה"כ עלות משלוח</td>
+          <td>{{sumCost}}</td>
+        </tr>
+        <tr>
+          <td>ממוצע עלות משלוח</td>
+          <td>{{avgCost}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  </div>
